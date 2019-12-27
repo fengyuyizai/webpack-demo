@@ -1,24 +1,20 @@
 const webpack = require("webpack")
 const path = require('path')
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-console.log("------------------------------")
-console.log(path.resolve(__dirname, '../dist'))
-console.log("------------------------------")
+const devMode = process.env.NODE_ENV !== 'production'
 
 module.exports = {
     context: path.resolve(__dirname, '../'),
-    // mode: "development",
-    // devtool: 'cheap-module-source-map',
-    entry: path.resolve(__dirname, "../app/src/main.js"),
+    mode: "production",
+    devtool: 'source-map',
+    entry: "./app/src/main.js",
     output: {
-        path: path.resolve(__dirname, "./dist"),
-        filename: "bundles.js"
-    },
-    devServer: {
-        contentBase: "/dist",
-        historyApiFallback: true,
-        inline: true
+        path: path.resolve(__dirname, '../dist'),
+        filename: "[name].[hash:8].js"
     },
     module: {
         rules: [
@@ -37,8 +33,19 @@ module.exports = {
                 test: /(\.vue)$/,
                 loader: 'vue-loader',
             }, {
-                test: /\.css$/,
-                use: ["style-loader", "css-loader"]
+                test: /\.(le|c)ss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+
+                    'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: [require('autoprefixer')]
+                        }
+                    },
+                    'less-loader'
+                ]
             }, {
                 test: /\.(gif|jpg|jpeg|svg)/,
                 use: [
@@ -54,9 +61,15 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
+        new VueLoaderPlugin(),
         new webpack.BannerPlugin("版权所有，翻版必究"),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "../app/index.html")
-        })
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name][hash].css',
+            chunkFilename: "[id].css"
+        }),
     ]
 }

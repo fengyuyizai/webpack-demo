@@ -1,7 +1,7 @@
 <template>
   <div class="page">
       home
-      <div>
+      <div class="main">
         {{number}}
       </div>
       <button @click="add">+</button>
@@ -26,5 +26,7 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus">
+<style>
+@import "../css/css2.css";
+@import "../css/css1.less";
 </style>
