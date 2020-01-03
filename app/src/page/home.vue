@@ -8,7 +8,8 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
+    import {last, join, pull} from 'loadsh'
 export default {
   data() {
     return {
@@ -17,6 +18,9 @@ export default {
   },
   components: {
 
+  },
+  mounted() {
+    console.log(last, join, pull)
   },
   methods: {
     add() {

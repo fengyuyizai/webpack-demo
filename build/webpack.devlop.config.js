@@ -1,53 +1,17 @@
-const webpack = require("webpack")
-const path = require('path')
-const HtmlWebpackPlugin = require("html-webpack-plugin")
+process.env.NODE_ENV = 'development'
 
-module.exports = {
-  context: path.resolve(__dirname, '../'),
-  mode: "production",
-  devtool: 'source-map',
-  entry: "./app/src/main.js",
-  output: {
-    path: path.resolve(__dirname, '../'),
-    filename: "bundles.js"
-  },
-  module: {
-    rules: [
-      {
-        test: /(\.jsx|\.js)$/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-env"
-            ]
-          }
-        },
-        exclude: /node_modules/
-      }, {
-        test: /(\.vue)$/,
-        loader: 'vue-loader',
-      }, {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      }, {
-        test: /\.(gif|jpg|jpeg|svg)/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 1024,
-              name: '[name].[hash:6].[ext]'
-            }
-          },
-        ]
-      }
-    ]
-  },
-  plugins: [
-    new webpack.BannerPlugin("版权所有，翻版必究"),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "../app/index.html")
-    })
-  ]
-}
+const merge = require('webpack-merge')
+const baseConfig = require('./webpack.base.config.js')
+
+module.exports  = merge(baseConfig, {
+  mode: "development",
+  devtool: 'inline-source-map',
+  devServer: {
+    contentBase: './dist',
+    //端口号
+    port: '8080',
+    inline: true,
+    historyApiFallback: true,//在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
+    hot: true//允许热加载
+  }
+})

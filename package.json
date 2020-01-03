@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build/build.js",
-    "server": "webpack-dev-server --inline --progress --config build/webpack.production.config.js"
+    "server": "webpack-dev-server --inline --progress --config build/webpack.devlop.config.js"
   },
   "author": "",
   "license": "ISC",
@@ -28,14 +28,17 @@
     "style-loader": "^0.23.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^2.0.1",
     "vue-loader": "^15.8.3",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.5",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "loadsh": "0.0.4",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6"
   }
