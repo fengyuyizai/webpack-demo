@@ -1,6 +1,9 @@
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+// const HappyPack = require('happypack');
+
 const devMode = process.env.NODE_ENV === 'production'
 
 console.log(process.env.NODE_ENV)
@@ -12,23 +15,15 @@ module.exports = {
     path: path.resolve(__dirname, '../dist'),
     filename: "[name].[hash:8].js"
   },
-  performance: {
-    hints: devMode ? "error": 'warning',
-    maxEntrypointSize: 3000000,
-    maxAssetSize: 1000000
-  },
-  optimization:{
-    splitChunks: {
-      chunks: "all"
-    }
-  },
   module: {
     rules: [
       {
         test: /(\.jsx|\.js)$/,
         use: {
           loader: "babel-loader",
+          // loader: "happypack/loader",
           options: {
+            plugins: ['lodash'],
             presets: [
               "@babel/preset-env"
             ]
@@ -66,6 +61,12 @@ module.exports = {
     ]
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new LodashModuleReplacementPlugin(),
+    // new HappyPack({
+    //   // 3) re-add the loaders you replaced above in #1:
+    //   loaders: [ 'babel-loader' ],
+    //   threads: 4
+    // })
   ]
 }

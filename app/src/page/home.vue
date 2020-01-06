@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import {last, join, pull} from 'loadsh'
+    import {last, join, pull} from 'lodash-es'
 export default {
   data() {
     return {
